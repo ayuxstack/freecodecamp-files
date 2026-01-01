@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Index of /</title>
+  <style>
+    body { font-family: monospace; padding: 20px; }
+    a { text-decoration: none; }
+    .dir { font-weight: bold; }
+  </style>
+</head>
+<body>
+<h1>Index of /</h1>
+<pre id="listing">Loading...</pre>
+
+<script>
+const owner = "ayuxstack";
+const repo = "freecodecamp-files";
+const branch = "main";
+
+const apiURL = `https://api.github.com/repos/${owner}/${repo}/contents/`;
+
+fetch(apiURL)
+  .then(res => res.json())
+  .then(items => {
+    const pre = document.getElementById("listing");
+    pre.textContent = "";
+
+    items.sort((a, b) => a.type.localeCompare(b.type));
+
+    items.forEach(item => {
+      const isDir = item.type === "dir";
+      const slash = isDir ? "/" : "";
+      const cls = isDir ? "dir" : "";
+
+      const href = isDir
+        ? `${item.name}/`
+        : item.name;
+
+      const line = document.createElement("div");
+      line.innerHTML = `<a class="${cls}" href="${href}">${item.name}${slash}</a>`;
+      pre.appendChild(line);
+    });
+  })
+  .catch(err => {
+    document.getElementById("listing").textContent = "Error loading listing";
+    console.error(err);
+  });
+</script>
+</body>
+</html>
