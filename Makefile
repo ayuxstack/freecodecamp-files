@@ -1,0 +1,7 @@
+default: push
+
+.PHONY: push
+push:
+	git add .
+	git commit -m "make push"
+	git push
